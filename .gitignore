@@ -1,0 +1,10 @@
+## Intelij idea ProjectFile
+.idea/
+*.iml
+
+## target/out file
+target/
+
+## jvm log
+java_pid5268.hprof.analysis
+*.hprof
