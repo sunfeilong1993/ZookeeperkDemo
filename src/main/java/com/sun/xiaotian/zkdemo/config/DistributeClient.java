@@ -12,13 +12,12 @@ import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 分布式客户端
  */
 
-public abstract class DistributeClient {
+public class DistributeClient {
 
     private final static Logger logger = LogManager.getLogger(DistributeClient.class);
 
@@ -57,7 +56,7 @@ public abstract class DistributeClient {
                 throw new RuntimeException("配置信息节点不存在");
             } else {
                 byte[] data = zooKeeper.getData(path, new GetNewConfigInfoWatcher(), null);
-                logger.info(this.getClass().getSimpleName() + "配置信息, path: " + path + " value: " + new String(data, ZookeeperConstant.UTF_8));
+                logger.info(this.hashCode() + "配置信息, path: " + path + " value: " + new String(data, ZookeeperConstant.UTF_8));
             }
         }
     }
@@ -77,6 +76,6 @@ public abstract class DistributeClient {
 
     private void getConfigInfoByPath(String path) throws KeeperException, InterruptedException, UnsupportedEncodingException {
         byte[] data = zooKeeper.getData(path, new GetNewConfigInfoWatcher(), null);
-        logger.info(this.getClass().getSimpleName() + " 获取配置信息 path:value " + path + ":" + new String(data, ZookeeperConstant.UTF_8));
+        logger.info(this.hashCode() + " 获取配置信息 path:value " + path + ":" + new String(data, ZookeeperConstant.UTF_8));
     }
 }

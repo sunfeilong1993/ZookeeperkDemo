@@ -13,7 +13,9 @@ import java.util.concurrent.*;
 
 public class ConfigMain {
 
-    private final static Logger logger = LogManager.getLogger(ConfigMain.class);
+    private static final Logger logger = LogManager.getLogger(ConfigMain.class);
+
+    private static final int clientCount = 10;
 
     public static void main(String[] args) throws InterruptedException {
         ConfigMain configMain = new ConfigMain();
@@ -22,32 +24,35 @@ public class ConfigMain {
     }
 
     public void start() {
-        //初始化配置信息
         try {
             initConfigInfo();
         } catch (Exception e) {
             logger.error("初始化配置信息失败!", e);
         }
-
-        //客户端获取配置信息
-        DistributeClientA distributeClientA = new DistributeClientA();
-        DistributeClientB distributeClientB = new DistributeClientB();
-        try {
-            distributeClientA.start();
-            distributeClientB.start();
-        } catch (IOException e) {
-            logger.error("创建连接失败!" + e.getMessage(), e);
-            return;
-        } catch (InterruptedException e) {
-            logger.error("zookeeper 连接中断!" + e.getMessage(), e);
-            return;
-        } catch (KeeperException e) {
-            logger.error(e.getMessage(), e);
-            return;
-        }
-
-        //定时更新配置文件
+        initClient();
         updateConfig();
+    }
+
+    //初始化读取配置信息的客户端
+    public void initClient() {
+        ExecutorService executorService = Executors.newFixedThreadPool(clientCount);
+        for (int i = 0; i < clientCount; i++) {
+            executorService.submit(() -> {
+                try {
+                    DistributeClient distributeClient = new DistributeClient();
+                    distributeClient.start();
+                } catch (IOException e) {
+                    logger.error("创建连接失败!" + e.getMessage(), e);
+                    throw new RuntimeException("初始化客户端出错", e);
+                } catch (InterruptedException e) {
+                    logger.error("zookeeper 连接中断!" + e.getMessage(), e);
+                    throw new RuntimeException("初始化客户端出错", e);
+                } catch (KeeperException e) {
+                    logger.error(e.getMessage(), e);
+                    throw new RuntimeException("初始化客户端出错", e);
+                }
+            });
+        }
     }
 
     //初始化配置文件
