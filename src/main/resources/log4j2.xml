@@ -29,7 +29,7 @@
             <AppenderRef ref="Console"/>
         </root>
 
-        <logger name="com.sun.xiaotian.zkdemo" level="INFO" additivity="false">
+        <logger name="com.sun.xiaotian.zkdemo" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="MyFile"/>
         </logger>

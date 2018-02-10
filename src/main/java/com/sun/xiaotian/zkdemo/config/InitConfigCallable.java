@@ -12,14 +12,15 @@ import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 /**
  * 初始化配置信息
  */
 
-public class InitConfig {
+public class InitConfigCallable implements Callable<String> {
 
-    private static final Logger logger = LogManager.getLogger(InitConfig.class);
+    private static final Logger logger = LogManager.getLogger(InitConfigCallable.class);
 
     private ZooKeeper zooKeeper;
     private final Random random = new Random(37);
@@ -47,5 +48,19 @@ public class InitConfig {
             }
         }
         logger.info("配置信息初始化成功!");
+    }
+
+    @Override
+    public String call() throws Exception {
+        try {
+            init();
+        } catch (IOException e) {
+            logger.error("创建连接失败!" + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            logger.error("zookeeper 连接中断!" + e.getMessage(), e);
+        } catch (KeeperException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 }
