@@ -1,5 +1,7 @@
 package com.sun.xiaotian.zkdemo.constant;
 
+import java.nio.charset.Charset;
+
 /**
  * zookeeper 服务器连接信息
  */
@@ -20,4 +22,9 @@ public class ZookeeperConstant {
      * 分布式配置信息路径
      */
     public static final String DISTRIBUTE_CONFIG_PATH = "/distribute_config";
+
+    /**
+     * UTF-8 编码
+     */
+    public static final String UTF_8 = "utf-8";
 }
