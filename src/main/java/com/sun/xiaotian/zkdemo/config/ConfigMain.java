@@ -23,7 +23,7 @@ public class ConfigMain {
         TimeUnit.SECONDS.sleep(1000);
     }
 
-    public void start() {
+    private void start() {
         try {
             initConfigInfo();
         } catch (Exception e) {
@@ -34,7 +34,7 @@ public class ConfigMain {
     }
 
     //初始化读取配置信息的客户端
-    public void initClient() {
+    private void initClient() {
         ExecutorService executorService = Executors.newFixedThreadPool(clientCount);
         for (int i = 0; i < clientCount; i++) {
             executorService.submit(() -> {
@@ -56,7 +56,7 @@ public class ConfigMain {
     }
 
     //初始化配置文件
-    public void initConfigInfo() throws ExecutionException, InterruptedException {
+    private void initConfigInfo() throws ExecutionException, InterruptedException {
         InitConfigCallable initConfigCallable = new InitConfigCallable();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<String> submit = executorService.submit(initConfigCallable);
@@ -65,7 +65,7 @@ public class ConfigMain {
     }
 
     //更新配置信息
-    public void updateConfig() {
+    private void updateConfig() {
         UpdateConfigThread updateThread = new UpdateConfigThread();
         updateThread.setDaemon(true);
         updateThread.start();

@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Zookeeper工厂类，用于创建Zookeeper，为了模拟分布式，没有使用单例
+ * Zookeeper工厂类，用于创建Zookeeper
  */
 
 public class ZookeeperFactory {

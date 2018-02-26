@@ -21,7 +21,6 @@ public class UpdateConfigThread extends Thread {
 
     private static final Logger logger = LogManager.getLogger(UpdateConfigThread.class);
 
-    private ZooKeeper zooKeeper;
     private final Random random = new Random(37);
 
     //记录更新配置信息的次数
@@ -42,8 +41,8 @@ public class UpdateConfigThread extends Thread {
      * @throws KeeperException
      * @throws InterruptedException
      */
-    public void update() throws KeeperException, InterruptedException, IOException {
-        zooKeeper = ZookeeperFactory.getZookeeper();
+    private void update() throws KeeperException, InterruptedException, IOException {
+        ZooKeeper zooKeeper = ZookeeperFactory.getZookeeper();
         while (true) {
             int times = updateTimes.addAndGet(1);
             logger.info("第 " + times + " 次更新配置信息!");
